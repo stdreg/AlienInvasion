@@ -7,7 +7,7 @@ class Ship:
         self.screen_rect = ai_game.sceen.get_rect()
 
         # Load image
-        self.image = pygame.image.loa("images/myship.myship.bmp")
+        self.image = pygame.image.load("images/myship.bmp")
         self.rect = self.image.get_rect()
 
         # Start earch new ship at the bottom center of the screen
