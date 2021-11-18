@@ -5,23 +5,30 @@ class Ship:
     def __init__(self,ai_game):
         self.screen = ai_game.sceen
         self.screen_rect = ai_game.sceen.get_rect()
+        self.settings = ai_game.settings
 
         # Load image
         self.image = pygame.image.load("images/myship.bmp")
         self.rect = self.image.get_rect()
-
+        
         # Start earch new ship at the bottom center of the screen
         self.rect.midbottom = self.screen_rect.midbottom
+
+        # Store horizontal postion
+        self.x = float(self.rect.x)
 
         #Movement-Flags
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
-        if self.moving_right and (self.rect.x + self.rect.width) < self.screen_rect.right:
-            self.rect.x += 1
-        if self.moving_left and self.rect.x > self.screen_rect.left:
-            self.rect.x -= 1            
+        if self.moving_right and self.rect.right < self.screen_rect.right:
+            self.x += self.settings.ship_speed
+        if self.moving_left and self.rect.left > self.screen_rect.left:
+            self.x -= self.settings.ship_speed
+        
+        #update Ship-Position on Screen
+        self.rect.x = self.x
 
     def blitme(self):
         # Draw the ship at its current location
