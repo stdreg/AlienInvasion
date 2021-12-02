@@ -69,11 +69,17 @@ class AlienInvasion:
         #remove old Bullets
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
-                self.bullets.remove(bullet)                       
+                self.bullets.remove(bullet) 
 
+        self._check_bullet_alien_collisions()
+        
     def _update_aliens(self):
         self._check_fleet_edges()
         self.aliens.update()
+
+        #look for alien-ship-Collisions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("ship hit")
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
@@ -120,6 +126,15 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.alien_drop_speed
         self.settings.fleet_direction *= -1
+    
+    def _check_bullet_alien_collisions(self):
+        # Check for any bullets that have hit aliens
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)                      
+
+        if not self.aliens:
+            #destroy existing bullets an create a new fleet
+            self.bullets.empty()
+            self._create_fleet()
 
 if __name__ == "__main__":
     ai = AlienInvasion()
