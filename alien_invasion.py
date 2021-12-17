@@ -76,6 +76,7 @@ class AlienInvasion:
     def _check_play_button(self,mouse_pos):
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
 
@@ -119,7 +120,6 @@ class AlienInvasion:
         # show button if game is inactive
         if not self.stats.game_active:
             self.play_button.draw_button()
-
 
         #make most recent draw screen visible
         pygame.display.flip()
@@ -168,6 +168,8 @@ class AlienInvasion:
             #destroy existing bullets an create a new fleet
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
+
     
     def _ship_hit(self):
         # Respond to the ship being hit by an alien
